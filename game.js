@@ -1,48 +1,36 @@
-document.addEventListener("keydown", function(event){
+//document.addEventListener("keydown", nextSequence);
 
-  var gamePattern = [];
-  var buttonColours = ["red", "blue", "green", "yellow"];
+var buttonColours = ["red", "blue", "green", "yellow"];
+var gamePattern = [];
+var userClickedPattern = [];
 
-  randomChosenColour = buttonColours[nextSequence()];
-
-  gamePattern.push(randomChosenColour);
-
-  $("#" + randomChosenColour).fadeOut(100).fadeIn(100);
-  makeSound(randomChosenColour);
-
-})
+$(document).on("keydown", function(){
+  nextSequence();
+  $(document).off();
+});
 
 function nextSequence() {
 
+  //document.removeEventListener("keydown", nextSequence);
+
   var randomNumber = Math.floor(Math.random() * 4);
-  return randomNumber;
-}
 
-function makeSound(color){
+  var randomChosenColour = buttonColours[randomNumber];
+  gamePattern.push(randomChosenColour);
 
-  switch (color) {
-    case "blue":
-        var tom1 = new Audio("sounds/blue.mp3");
-        tom1.play();
-      break;
+  $("#" + randomChosenColour).fadeOut(100).fadeIn(100);
 
-    case "green":
-        var tom2 = new Audio("sounds/green.mp3");
-        tom2.play();
-      break;
+  var audio = new Audio("sounds/" + randomChosenColour + ".mp3");
+  audio.play();
 
-    case "red":
-        var tom3 = new Audio("sounds/red.mp3");
-        tom3.play();
-      break;
+  /* for( var i = 0; i < 4; i++) {
+    $("." + buttonColours[i]).click( function() { handler(buttonColours[i]); });
+  } */
 
-    case "yellow":
-        var tom4 = new Audio("sounds/yellow.mp3");
-        tom4.play();
-      break;
+  $(".btn").click( function() {
 
-    default: console.log("errorColor");
-
-  }
+    var userChosenColour = $(this).attr("id");
+    userClickedPattern.push(userChosenColour);
+  });
 
 }
